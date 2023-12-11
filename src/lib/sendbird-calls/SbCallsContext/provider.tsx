@@ -1,14 +1,12 @@
 import { ReactElement, useCallback, useEffect, useMemo, useReducer } from 'react';
 import type { AuthOption, DirectCall } from 'sendbird-calls';
-import SendbirdCall, { LoggerLevel, sdkVersion, SoundType, RoomType } from 'sendbird-calls';
+import SendbirdCall, { LoggerLevel, RoomType } from 'sendbird-calls';
 
 import CallContext, { initialContext } from './context';
 import type { ContextType } from './context';
 import { reducer } from './reducer';
 import { initialState } from './state';
 import { statefyDirectCall, statefyRoom } from './statefy';
-
-console.log({ SoundType, sdkVersion });
 
 /**
  * Provider
@@ -196,7 +194,6 @@ const SbCallsProvider = ({
     RoomType,
   };
 
-  console.log('call context', callContext.calls, callContext.calls.length);
   return (
     <CallContext.Provider value={callContext}>
       {children}

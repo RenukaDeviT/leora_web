@@ -38,6 +38,7 @@ const VideoCallTriggerForm = () => {
 
   const enter = useCallback(async (roomId: string) => {
     try {
+      console.log(roomId);// eslint-disable-line no-console
       const room = await sbCalls.fetchRoomById(roomId);
         room.enter({
           audioEnabled: true,
@@ -63,70 +64,65 @@ const VideoCallTriggerForm = () => {
 
     // API type call identification
   const apiType =
-  type === "user" ? "user_join_session_web" : "practitioner_join_session";
+  type === 'user' ? 'user_join_session_web' : 'practitioner_join_session';
 
-    const [user, setUser] = useState<TUser | null>(null);
-    const [Loading, setIsLoading] = useState(false);
+    const [dbUser, setDbUser] = useState<TUser | null>(null);
+    const [Loading, setIsLoading] = useState(false);// eslint-disable-line @typescript-eslint/no-unused-vars
 const [isEnter, setEnter] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    console.log(user, Loading, error, isEnter);// eslint-disable-line no-console
   
     console.log(sbCalls);// eslint-disable-line no-console
     // asynchronous function call to hit api
             // eslint-disable-next-line @typescript-eslint/no-unused-expressions
            const apiCall = async () => {
             setIsLoading(true);
+            console.log(apiType);// eslint-disable-line no-console
             try {
-              if(apiType === "user_join_session_web")
+              if(apiType === 'user_join_session_web')
               {
                 // Call API request by passing parameters
-              const { data : user } = await api.videoGroupCallWeb.me({
+              const { data : dbUser } = await api.videoGroupCallWeb.me({
                 action: apiType,
                 user_id: plainIdText,
                 session_id: plainSessionText
               });
               // set response values
-              setUser(user);
+              setDbUser(dbUser);
               }
               else
               {
                 // Call API request by passing parameters
-              const { data : user } = await api.videoGroupCallWeb.mePrac({
+              const { data : dbUser } = await api.videoGroupCallWeb.mePrac({
                 action: apiType,
                 practitioner_id: plainIdText,
                 session_id: plainSessionText
               });
               // set response values
-              setUser(user);
+              setDbUser(dbUser);
               }
               
-              console.log(user);// eslint-disable-line no-console
-              if(user !== null)
+              if(dbUser !== null)
               {
-                console.log('hit');// eslint-disable-line no-console
               //  The USER_ID below should be unique to your Sendbird application.
-                const authOption = { userId: user.sbUserId, accessToken: user.sbUserCallAccessToken };
+                const authOption = { userId: dbUser.sbUserId, accessToken: dbUser.sbUserCallAccessToken };
+                
                 setError(null);
 
                 // Handle authentication
-                sbCalls.auth(authOption, (result, error) => {
-                    if (error) {
-                        // Handle authentication failure.
-                        setError('SendBird Authentication failed. Please retry');
-                    } else {// eslint-disable-line no-console
-                        // The user has been successfully authenticated and is connected to the Sendbird server.
-                        // ...
-                        // Establishing websocket connection.
-                        
-                        enter(user.roomId);
-                        
-                    }
-                });  
+                const user = sbCalls.auth(authOption);
+                if(user !== undefined)
+                {
+                enter(dbUser.roomId);
+                }
+                else
+                {
+                  setError('Authorization failed');
+                }
               }   
               else
               {
                 setError(null);
-                if(user === null)
+                if(dbUser === null)
                   setError('User/ Practitioner doesnot have access');
               }            
             }
