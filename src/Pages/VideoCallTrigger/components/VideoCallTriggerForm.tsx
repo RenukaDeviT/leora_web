@@ -88,6 +88,7 @@ const [isEnter, setEnter] = useState(false);
               });
               // set response values
               setDbUser(dbUser);
+              console.log(dbUser);// eslint-disable-line no-console
               }
               else
               {
@@ -121,6 +122,7 @@ const [isEnter, setEnter] = useState(false);
               }   
               else
               {
+                console.log(dbUser);// eslint-disable-line no-console
                 setError(null);
                 if(dbUser === null)
                   setError('User/ Practitioner doesnot have access');

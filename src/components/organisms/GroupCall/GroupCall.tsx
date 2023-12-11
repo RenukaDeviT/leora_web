@@ -196,9 +196,7 @@ import {
     const [showDeviceSettings, setShowDeviceSettings] = useState(false);
     const [showSide, setShowSide] = useState(false);
     const [showRoomInfo, setShowRoomInfo] = useState(false);
-    console.log('hit');// eslint-disable-line no-console
-    const { participants, localParticipant, remoteParticipants } = room;
-    console.log(remoteParticipants);// eslint-disable-line no-console
+    const { participants, localParticipant, remoteParticipants } = room;// eslint-disable-line @typescript-eslint/no-unused-vars
     return (
       <Wrapper>
         <Main>
