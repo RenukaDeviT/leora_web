@@ -1,15 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import { ThemeProvider } from 'styled-components';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { SbCallsProvider } from './lib/sendbird-calls/SbCallsContext';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+
 root.render(
   <React.StrictMode>
-    <App />
+    <SbCallsProvider appId="">
+      <ThemeProvider theme={{ isWidget: false }}>
+        <App/>
+      </ThemeProvider>
+    </SbCallsProvider>
   </React.StrictMode>
 );
 
