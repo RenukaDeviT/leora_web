@@ -55,7 +55,7 @@ import {
   const Footer = styled.div`
     height: 88px;
     padding: 0 48px;
-    background-color: var(--neutral-navy-800);
+    background-color: black;
     display: flex;
     justify-content: space-between;
     z-index: 10;
@@ -63,7 +63,7 @@ import {
   
   const Button = styled.div`
     width: 80px;
-    height: 88px;
+    height: 50px;
     padding: 20px 14px;
     cursor: pointer;
     display: flex;
@@ -203,7 +203,7 @@ import {
           <Header>
             <span onClick={() => {
               setShowRoomInfo(true);
-            }} style={{ cursor: 'pointer' }}>{room.roomId}</span>
+            }} style={{ cursor: 'pointer', color: 'black' }}>{room.roomId}</span>
             <ChevronRight />
           </Header>
   

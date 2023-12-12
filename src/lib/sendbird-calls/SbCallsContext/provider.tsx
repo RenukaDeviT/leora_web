@@ -61,6 +61,7 @@ const SbCallsProvider = ({
   const ringingListenerId = 'sb-call-listener';
   const auth = useCallback(async (authOption: AuthOption) => {
     const user = await SendbirdCall.authenticate(authOption);
+    console.log(user);// eslint-disable-line no-console
     SendbirdCall.addListener(ringingListenerId, {
       onRinging: (call: DirectCall) => {
         dispatch({ type: 'RINGING', payload: statefyDirectCall(call, dispatch) });

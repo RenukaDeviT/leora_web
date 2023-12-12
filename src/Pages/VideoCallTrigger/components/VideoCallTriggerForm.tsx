@@ -36,25 +36,6 @@ const VideoCallTriggerForm = () => {
      rooms.find(r => !!r.localParticipant)
   , [rooms]);
 
-  const enter = useCallback(async (roomId: string) => {
-    try {
-      console.log(roomId);// eslint-disable-line no-console
-      const room = await sbCalls.fetchRoomById(roomId);
-        room.enter({
-          audioEnabled: true,
-          videoEnabled: true,
-          kickSiblings: true 
-        }).then(() => {
-          setEnter(true);
-        }).catch(error => {
-          setError(error.message);
-        });      
-    } catch (e) {
-      console.error(e);
-      setError('Check room ID and try again.');
-    }
-  }, [sbCalls])
-
   // The serialize function here would be responsible for
     // creating an object of { key: value } pairs from the
     // fields in the form that make up the query.
@@ -76,7 +57,6 @@ const [isEnter, setEnter] = useState(false);
             // eslint-disable-next-line @typescript-eslint/no-unused-expressions
            const apiCall = async () => {
             setIsLoading(true);
-            console.log(apiType);// eslint-disable-line no-console
             try {
               if(apiType === 'user_join_session_web')
               {
@@ -87,8 +67,15 @@ const [isEnter, setEnter] = useState(false);
                 session_id: plainSessionText
               });
               // set response values
-              setDbUser(dbUser);
-              console.log(dbUser);// eslint-disable-line no-console
+              if(dbUser)
+              {
+              // set response values
+                setDbUser(dbUser);
+              }
+              else
+              {
+                setError('Error! User doesnot exists');
+              }
               }
               else
               {
@@ -98,35 +85,17 @@ const [isEnter, setEnter] = useState(false);
                 practitioner_id: plainIdText,
                 session_id: plainSessionText
               });
+
+              if(dbUser)
+              {
               // set response values
               setDbUser(dbUser);
               }
-              
-              if(dbUser !== null)
-              {
-              //  The USER_ID below should be unique to your Sendbird application.
-                const authOption = { userId: dbUser.sbUserId, accessToken: dbUser.sbUserCallAccessToken };
-                
-                setError(null);
-
-                // Handle authentication
-                const user = sbCalls.auth(authOption);
-                if(user !== undefined)
-                {
-                enter(dbUser.roomId);
-                }
-                else
-                {
-                  setError('Authorization failed');
-                }
-              }   
               else
               {
-                console.log(dbUser);// eslint-disable-line no-console
-                setError(null);
-                if(dbUser === null)
-                  setError('User/ Practitioner doesnot have access');
-              }            
+                setError('Error! User doesnot exists');
+              }
+              }           
             }
            
           catch (err) {
@@ -145,18 +114,61 @@ const [isEnter, setEnter] = useState(false);
     }
   }, [sessionId, id]);
 
+  const userAuth = useEffect(() => {
+    if(dbUser !== null)
+    {
+    //  The USER_ID below should be unique to your Sendbird application.
+      const authOption = { userId: dbUser.sbUserId, accessToken: dbUser.sbUserCallAccessToken };
+      setError(null);
+
+      // Handle authentication
+      const user = sbCalls.auth(authOption);
+      if(user !== undefined)
+      {
+      enter(dbUser.roomId);
+      }
+      else
+      {
+        setError('Authorization failed');
+      }
+    }   
+  },[dbUser])
+
+  
+  const enter = useCallback(async (roomId: string) => {
+    try {
+      console.log(roomId);// eslint-disable-line no-console
+      const room = await sbCalls.fetchRoomById(roomId);
+        room.enter({
+          audioEnabled: true,
+          videoEnabled: true,
+          kickSiblings: true 
+        }).then(() => {
+          setEnter(true);
+        }).catch(error => {
+          setError(error.message);
+        });      
+    } catch (e) {
+      console.error(e);
+      setError('Check room ID and try again.');
+    }
+  }, [userAuth])
+
   return (
     <div className="video-call-wrapper">
       <div className="video-call-container">
+          { error === null && !isEnter ?
+          <div>
         <h1 className="video-call-title">Welcome</h1>
         <div className="dashboard__metrics-engaged-members-empty-wrapper">
-          { error === null && !isEnter ?
           <Box sx={{ width: '100%', marginTop: '20px' }}>
             <LinearProgress
               className="dashboard__metrics-engaged-members-empty-loader"
               color="secondary"
             />
           </Box>
+          </div>
+          </div>
           :
           <div>
           { error === null && isEnter ?
@@ -167,12 +179,16 @@ const [isEnter, setEnter] = useState(false);
               </Overlay>
             }
             </div>
-           :
+           :  
+           <div>
+        <h1 className="video-call-title">Welcome</h1>
+        <div className="dashboard__metrics-engaged-members-empty-wrapper">
            <p className="video-call-error">{error}</p>
+          </div>
+          </div>
           } 
           </div>
 }
-        </div>
       </div>
       <div className='video-call__form-login-img-plug' />
     </div>
