@@ -1,14 +1,9 @@
 import { memo } from "react";
 import { useSearchParams } from "react-router-dom";
-// import CryptoJS, { AES } from 'crypto-js';
-// import { decryption } from 'utils/constants';
 import Loader from "Pages/Loader/Loader";
 import Error from "Pages/Error/Error";
 import VideoRoom from "./VideoRoom";
 import useSBAuthenticate from "../hooks/useSBAuthenticate";
-
-// const key = CryptoJS.enc.Hex.parse(decryption.key);
-// const iv = CryptoJS.enc.Utf8.parse(decryption.iv);
 
 const VideoCallTriggerForm = () => {
   // Get values from query string
@@ -32,9 +27,7 @@ const VideoCallTriggerForm = () => {
     <div>
       {room && (
         <div className="video-call-wrapvideo">
-          <div className="video-call-containervideo">
-            <VideoRoom room={room} />
-          </div>
+          <VideoRoom room={room} />
         </div>
       )}
     </div>

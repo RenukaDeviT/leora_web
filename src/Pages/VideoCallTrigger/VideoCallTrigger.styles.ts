@@ -1,6 +1,6 @@
-import media from 'ui/styles/media';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
+import media from "ui/styles/media";
+import styled from "@emotion/styled";
+import { css } from "@emotion/react";
 
 const StyledVideoCallTrigger = styled.div(
   () => css`
@@ -9,9 +9,9 @@ const StyledVideoCallTrigger = styled.div(
     width: calc(100% - 98px);
     height: calc(100vh - 80px);
     overflow: hidden;
+    background: #212242;
 
     .video-call {
-
       &-main {
         height: 100vh;
         overflow: hidden;
@@ -33,7 +33,7 @@ const StyledVideoCallTrigger = styled.div(
         right: 0;
       }
 
-      &__header { 
+      &__header {
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -157,9 +157,9 @@ const StyledVideoCallTrigger = styled.div(
       &-subtitle {
         font-style: normal;
         font-weight: 400;
-        font-size: '0.88rem';
+        font-size: "0.88rem";
         line-height: 21px;
-        letter-spacing: '-0.02em';
+        letter-spacing: "-0.02em";
 
         color: "#101828;";
         margin-bottom: 76px;
@@ -251,7 +251,7 @@ const StyledVideoCallTrigger = styled.div(
             font-family: "'Poppins', sans-serif";
             font-style: normal;
             font-weight: 400;
-            font-size: '0.88rem';
+            font-size: "0.88rem";
             line-height: 20px;
           }
         }
@@ -460,7 +460,7 @@ const StyledVideoCallTrigger = styled.div(
               flex-direction: column;
               justify-content: center;
               align-items: center;
-              width: 100%
+              width: 100%;
             }
 
             &-loader {
@@ -480,7 +480,7 @@ const StyledVideoCallTrigger = styled.div(
     .MuiLinearProgress-bar {
       background: #bf93ff;
     }
-  `,
+  `
 );
 
 export default StyledVideoCallTrigger;

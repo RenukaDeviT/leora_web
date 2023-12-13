@@ -1,13 +1,19 @@
-import { Box, Container } from "@mui/material";
+import SplashLoader from "components/templates/Loader/Index";
 
 const Error = () => {
   console.log("error");
   return (
-    <Container>
-      <Box display="flex" justifyContent="center" alignItems="center">
-        <h6>Page is under maintainance</h6>
-      </Box>
-    </Container>
+    <SplashLoader>
+      <>
+        <h6 className="content yellow">
+          "Oops! It seems there was an error during the video session.{" "}
+        </h6>
+        <h6 className="content">
+          Our video session feature is undergoing maintenance to bring you even
+          better service!"
+        </h6>
+      </>
+    </SplashLoader>
   );
 };
 

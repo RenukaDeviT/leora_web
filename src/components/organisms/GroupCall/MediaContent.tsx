@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import type { StatefulRoom } from 'lib/sendbird-calls/SbCallsContext';
-import styled, { css } from 'styled-components';
-import { normal } from 'ui/styles/font';
+import type { StatefulRoom } from "lib/sendbird-calls/SbCallsContext";
+import styled, { css } from "styled-components";
+import { normal } from "ui/styles/font";
 
 // eslint no-useless-concat: "error"
 const ParticipantsRow = styled.div<{ rows: number }>`
@@ -9,14 +9,19 @@ const ParticipantsRow = styled.div<{ rows: number }>`
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-height: ${props => Math.ceil(100 / props.rows)}%;
+  max-height: ${(props) => Math.ceil(100 / props.rows)}%;
   margin-bottom: 4px;
   &:last-child {
     margin-bottom: 0px;
   }
 `;
 
-const ParticipantView = styled.div<{ rows: number, width: number, height: number, isLocal?: boolean }>`
+const ParticipantView = styled.div<{
+  rows: number;
+  width: number;
+  height: number;
+  isLocal?: boolean;
+}>`
   position: relative;
   width: 100%;
   height: 100%;
@@ -27,10 +32,10 @@ const ParticipantView = styled.div<{ rows: number, width: number, height: number
   &:before {
     display: block;
     content: "";
-    padding-top: 56.25%;  /*What you want the height to be in relation to the width*/
+    padding-top: 56.25%; /*What you want the height to be in relation to the width*/
   }
   video {
-    position:  absolute;
+    position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
@@ -53,7 +58,7 @@ const ParticipantInfo = styled.div`
   color: var(--white);
 `;
 
-export const ParticipantOverlay = styled.div<{ fillBlack?: boolean; }>`
+export const ParticipantOverlay = styled.div<{ fillBlack?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,20 +68,23 @@ export const ParticipantOverlay = styled.div<{ fillBlack?: boolean; }>`
   top: 0;
   width: 100%;
   height: 100%;
-  ${props => props.fillBlack ? css`
-    background-color: black;
-
-` : ''};
+  ${(props) =>
+    props.fillBlack
+      ? css`
+          background-color: black;
+        `
+      : ""};
 `;
 
-export const Avatar = styled.div<{ url?: string; }>`
+export const Avatar = styled.div<{ url?: string }>`
   width: 80px;
   height: 80px;
   border-radius: 50%;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: contain;
-  background-image: url(${props => props.url ? props.url : '/icons/icon-avatar.svg'});
+  background-image: url(${(props) =>
+    props.url ? props.url : "/icons/icon-avatar.svg"});
 `;
 
 const ParticipantMutedIcon = styled.div`
@@ -86,7 +94,7 @@ const ParticipantMutedIcon = styled.div`
   background-position: center center;
   background-image: url(/icons/icon-audio-off.svg);
   margin-right: 4px;
-`
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -100,7 +108,6 @@ const Wrapper = styled.div`
   }
 `;
 
-
 type Props = { room: StatefulRoom };
 const MediaContent = ({ room }: Props) => {
   const { participants, localParticipant, remoteParticipants } = room;
@@ -109,82 +116,115 @@ const MediaContent = ({ room }: Props) => {
     const { innerWidth: width, innerHeight: height } = window;
     return {
       width,
-      height
+      height,
     };
-  }
+  };
 
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
 
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
     }
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
   }, []);
 
   console.log(
     JSON.stringify(
-    participants.map(x => ({ id: x.participantId, audio: x.isAudioEnabled }))
-      ,null,4)
-  )
+      participants.map((x) => ({
+        id: x.participantId,
+        audio: x.isAudioEnabled,
+      })),
+      null,
+      4
+    )
+  );
 
   if (!remoteParticipants.length) {
     const p = localParticipant;
     return (
       <Wrapper>
-        <ParticipantView key={p.participantId} rows={1} width={windowDimensions.width} height={windowDimensions.height}>
+        <ParticipantView
+          key={p.participantId}
+          rows={1}
+          width={windowDimensions.width}
+          height={windowDimensions.height}
+        >
           {/* eslint-disable jsx-a11y/media-has-caption */}
-          <video autoPlay playsInline muted={p.participantId === localParticipant.participantId} ref={el => {
-            if (!el) return;
-            p.setMediaView(el);
-          }} />
-          {p.isVideoEnabled ||
-          <ParticipantOverlay>
-            <Avatar url={p.user.profileUrl} />
-          </ParticipantOverlay>
-          }
+          <video
+            autoPlay
+            playsInline
+            muted={p.participantId === localParticipant.participantId}
+            ref={(el) => {
+              if (!el) return;
+              p.setMediaView(el);
+            }}
+          />
+          {p.isVideoEnabled || (
+            <ParticipantOverlay>
+              <Avatar url={p.user.profileUrl} />
+            </ParticipantOverlay>
+          )}
           <ParticipantInfo>
-            {p.isAudioEnabled || <ParticipantMutedIcon />}User ID: {p.user.userId}
+            {p.isAudioEnabled || <ParticipantMutedIcon />}User ID:{" "}
+            {p.user.userId}
           </ParticipantInfo>
         </ParticipantView>
       </Wrapper>
-    )
+    );
   }
 
   const rows = Math.ceil(participants.length / 2);
   return (
     <Wrapper>
-      {Array(rows).fill(0).map((x, i) => {
-        const p1 = participants[i * 2];
-        const p2 = participants[i * 2 + 1];
+      {Array(rows)
+        .fill(0)
+        .map((x, i) => {
+          const p1 = participants[i * 2];
+          const p2 = participants[i * 2 + 1];
 
-        
-        return (
-          <ParticipantsRow key={i} rows={rows}>
-            {[p1, p2].map(p => (
-              p && (
-                <ParticipantView rows={rows} width={windowDimensions.width} height={windowDimensions.height} key={p.participantId}>
-                  {/* eslint-disable jsx-a11y/media-has-caption */}
-                  <video autoPlay playsInline muted={p.participantId === localParticipant.participantId} ref={el => {
-                    if (!el) return;
-                    p.setMediaView(el);
-                  }} />
-                  {p.isVideoEnabled ||
-                  <ParticipantOverlay>
-                    <Avatar url={p.user.profileUrl} />
-                  </ParticipantOverlay>
-                  }
-                  <ParticipantInfo>
-                    {p.isAudioEnabled || <ParticipantMutedIcon />}User ID: {p.user.userId}
-                  </ParticipantInfo>
-                </ParticipantView>
-              )
-            ))}
-          </ParticipantsRow>
-        )
-      })}
+          return (
+            <ParticipantsRow key={i} rows={rows}>
+              {[p1, p2].map(
+                (p) =>
+                  p && (
+                    <ParticipantView
+                      rows={rows}
+                      width={windowDimensions.width}
+                      height={windowDimensions.height}
+                      key={p.participantId}
+                    >
+                      {/* eslint-disable jsx-a11y/media-has-caption */}
+                      <video
+                        autoPlay
+                        playsInline
+                        muted={
+                          p.participantId === localParticipant.participantId
+                        }
+                        ref={(el) => {
+                          if (!el) return;
+                          p.setMediaView(el);
+                        }}
+                      />
+                      {p.isVideoEnabled || (
+                        <ParticipantOverlay>
+                          <Avatar url={p.user.profileUrl} />
+                        </ParticipantOverlay>
+                      )}
+                      <ParticipantInfo>
+                        {p.isAudioEnabled || <ParticipantMutedIcon />}User ID:{" "}
+                        {p.user.nickname}
+                      </ParticipantInfo>
+                    </ParticipantView>
+                  )
+              )}
+            </ParticipantsRow>
+          );
+        })}
     </Wrapper>
-  )
-}
+  );
+};
 export default MediaContent;

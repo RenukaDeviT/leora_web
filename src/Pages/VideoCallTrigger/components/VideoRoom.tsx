@@ -1,21 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
-import { Button } from "@mui/material";
 import Overlay from "components/atoms/Overlay";
 import GroupCall from "components/organisms/GroupCall";
 import { StatefulRoom, useSbCalls } from "lib/sendbird-calls";
+import Error from "Pages/Error/Error";
 
 const VideoRoom = ({ room }: { room: StatefulRoom }) => {
   const [isEnter, setIsEnter] = useState(false);
   const { rooms } = useSbCalls();
 
+  const [error, setError] = useState(false);
+
   const onCall = useMemo(
     () => rooms.find((r) => !!r.localParticipant),
     [rooms]
   );
-
-  const onExit = () => {
-    room.exit();
-  };
 
   useEffect(() => {
     const enter = async () => {
@@ -27,12 +25,20 @@ const VideoRoom = ({ room }: { room: StatefulRoom }) => {
         })
         .then(() => {
           setIsEnter(() => true);
+        })
+        .catch((error) => {
+          setError(error);
         });
     };
 
     if (!isEnter) enter();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (error) {
+    console.log(error);
+    return <Error />;
+  }
 
   if (!isEnter) return null;
   return (
@@ -42,7 +48,6 @@ const VideoRoom = ({ room }: { room: StatefulRoom }) => {
           <GroupCall room={onCall} />
         </Overlay>
       )}
-      <Button onClick={onExit}>Exit</Button>
     </>
   );
 };

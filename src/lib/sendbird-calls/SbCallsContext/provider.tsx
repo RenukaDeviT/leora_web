@@ -45,7 +45,7 @@ const SbCallsProvider = ({
     try {
       SendbirdCall.removeListener(listenerId);
     } catch (error) {
-      console.log(error);
+      console.log("SendbirdCall is not initialized yet to remove listener");
     }
     SendbirdCall.init(nAppId);
     SendbirdCall.setLoggerLevel(LoggerLevel.ERROR);

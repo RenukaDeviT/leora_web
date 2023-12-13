@@ -1,13 +1,14 @@
-import { Box, Container } from "@mui/material";
+import SplashLoader from "components/templates/Loader/Index";
 
 const EndSession = () => {
   console.log("session ended");
   return (
-    <Container>
-      <Box display="flex" justifyContent="center" alignItems="center">
-        <h6>Session Ended, Thank you!</h6>
-      </Box>
-    </Container>
+    <SplashLoader>
+      <h6 className="content">
+        "Congratulations! Session successfully completed. You've done a <br />
+        fantastic job!"
+      </h6>
+    </SplashLoader>
   );
 };
 
