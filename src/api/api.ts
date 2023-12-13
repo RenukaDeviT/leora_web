@@ -1,5 +1,5 @@
-import * as videoGroupCallWeb from './videoGroupCallWeb';
+import * as videoGroupCallWeb from "./videoGroupCallWeb";
 
 export default {
-  videoGroupCallWeb
-  };
+  videoGroupCallWeb,
+};

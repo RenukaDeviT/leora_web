@@ -1,6 +1,6 @@
-import { createContext, Dispatch, SetStateAction } from 'react';
+import { createContext, Dispatch, SetStateAction } from "react";
 
-import { TUser } from 'utils/types';
+import { TUser } from "utils/types";
 
 type TAppContex = {
   user: TUser | null;

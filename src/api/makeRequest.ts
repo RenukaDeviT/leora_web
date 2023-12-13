@@ -1,10 +1,10 @@
-import { EHttpMethods } from 'utils/types';
+import { EHttpMethods } from "utils/types";
 
-import axiosInstance from './axios';
+import axiosInstance from "./axios";
 
 // General format for axios fetch
 export default <T>({
-  url = '/',
+  url = "/",
   method = EHttpMethods.GET,
   params = {},
   data = {},
