@@ -212,8 +212,6 @@ export const statefyDirectCall = (
     endedBy: call.endedBy, // This should not mutate
     isEnded: call.isEnded,
     endResult: call.endResult,
-    // callLog: call.callLog, // This should not mutate
-    // customItems: call.customItems, // This should not mutate
     localMediaView: call.localMediaView,
     remoteMediaView: call.remoteMediaView,
 
@@ -252,24 +250,5 @@ export const statefyDirectCall = (
       dispatchUpdate({ isLocalAudioEnabled: true });
       return call.unmuteMicrophone();
     },
-
-    // captureLocalVideoView(callback?) {
-    //   return call.captureLocalVideoView(callback);
-    // },
-    // captureRemoteVideoView(callback?) {
-    //   return call.captureRemoteVideoView(callback);
-    // },
-
-    // updateCustomItems(customItems, callback?): Promise<> {
-    // },
-    // deleteCustomItems(customItemsKeys: string[], callback?): Promise<> {
-    // },
-    // deleteAllCustomItems(callback?): Promise<> {
-    // },
-
-    // startRecording(options): string {
-    // },
-    // stopRecording(recordingId: string): boolean {
-    // },
   };
 };

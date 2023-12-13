@@ -30,17 +30,18 @@ const SbCallsProvider = ({
   const currentCall = useMemo(() => calls.find(call => !call.isEnded), [calls]);
   const isBusy = useMemo(() => calls.some(call => !call.isEnded), [calls]);
 
+  // Sendbird initilize
   const init = useCallback<ContextType['init']>(nAppId => {
     const listenerId = 'device-change-listener';
     try {
       SendbirdCall.removeListener(listenerId);
     } catch (error) {
-      console.log(error);// eslint-disable-line no-console
+        console.log(error); 
     }
     SendbirdCall.init(nAppId);
     SendbirdCall.setLoggerLevel(LoggerLevel.ERROR);
-    SendbirdCall.addListener(listenerId, {      
-      onRinging: (call: DirectCall) => {},// eslint-disable-line @typescript-eslint/no-unused-vars
+    SendbirdCall.addListener(listenerId, {
+      onRinging: (call: DirectCall) => {}, // eslint-disable-line @typescript-eslint/no-unused-vars
       onAudioInputDeviceChanged: (current, available) => {
         dispatch({ type: 'UPDATE_AUDIO_INPUT_DEVICE_INFO', payload: { current, available } });
       },
@@ -58,26 +59,27 @@ const SbCallsProvider = ({
     if (appId) init(appId);
   }, [appId]);
 
+  // Sendbird AUthentication  
   const ringingListenerId = 'sb-call-listener';
   const auth = useCallback(async (authOption: AuthOption) => {
     const user = await SendbirdCall.authenticate(authOption);
-    console.log(user);// eslint-disable-line no-console
     SendbirdCall.addListener(ringingListenerId, {
       onRinging: (call: DirectCall) => {
         dispatch({ type: 'RINGING', payload: statefyDirectCall(call, dispatch) });
       },
-      onAudioInputDeviceChanged: (current, available) => {},// eslint-disable-line @typescript-eslint/no-unused-vars
+      onAudioInputDeviceChanged: (current, available) => {}, // eslint-disable-line @typescript-eslint/no-unused-vars
       onAudioOutputDeviceChanged: (current, available) => {},// eslint-disable-line @typescript-eslint/no-unused-vars
       onVideoInputDeviceChanged: (current, available) => {},// eslint-disable-line @typescript-eslint/no-unused-vars
     });
+    // Connect web socket
     await SendbirdCall.connectWebSocket();
-
+    
     dispatch({ type: 'AUTH', payload: user });
     return user;
   }, []);
 
+  // Authentication deactivate
   const deauth = useCallback<ContextType['deauth']>(() => {
-    SendbirdCall.removeListener(ringingListenerId);
     SendbirdCall.deauthenticate();
     dispatch({ type: 'DEAUTH' });
   }, []);
@@ -134,7 +136,6 @@ const SbCallsProvider = ({
   const clearCalls = useCallback(() => {
     dispatch({ type: 'CLEAR_CALLS' });
   }, []);
-
 
   /*
     Rooms

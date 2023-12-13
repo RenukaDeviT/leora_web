@@ -2,21 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { ThemeProvider } from 'styled-components';
+import config from 'config';
+import './ui/styles/globals.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { SbCallsProvider } from './lib/sendbird-calls/SbCallsContext';
 
-
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
 root.render(
-  <React.StrictMode>
-    <SbCallsProvider appId="">
+    <SbCallsProvider appId={config.appId}>
       <ThemeProvider theme={{ isWidget: false }}>
         <App/>
       </ThemeProvider>
     </SbCallsProvider>
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -7,17 +7,33 @@ const StyledVideoCallTrigger = styled.div(
     padding: 40px 49px;
     position: relative;
     width: calc(100% - 98px);
-    height: 100%;
+    height: calc(100vh - 80px);
     overflow: hidden;
 
     .video-call {
-      &-wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: top;
+
+      &-main {
+        height: 100vh;
+        overflow: hidden;
       }
 
-      &__header {
+      &-wrapper {
+        display: flex;
+        align-items: top;
+        position: absolute;
+      }
+
+      &-wrapvideo {
+        display: flex;
+        align-items: top;
+        position: absolute;
+        top: 0;
+        left: 0 !important;
+        bottom: 0;
+        right: 0;
+      }
+
+      &__header { 
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -76,7 +92,7 @@ const StyledVideoCallTrigger = styled.div(
           &-middle {
             width: 338px;
             height: 224px;
-            right: -5.28%;
+            right: -2.28%;
             top: 30%;
           }
 
@@ -89,6 +105,22 @@ const StyledVideoCallTrigger = styled.div(
             filter: blur(10.5px);
           }
         }
+      }
+
+      &-containervideo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 360px;
+        width: 100%;
+        height: 300px;
+        background: rgba(252, 252, 253, 0.8);
+        border: 1px solid #fcfcfd;
+        backdrop-filter: blur(8px);
+        border-radius: 50px;
+        padding: 0px 36px;
+        margin-left: 0px;
       }
 
       &-container {
@@ -104,7 +136,7 @@ const StyledVideoCallTrigger = styled.div(
         backdrop-filter: blur(8px);
         border-radius: 50px;
         padding: 0px 36px;
-        margin-left: 106px;
+        margin-left: 180px;
         z-index: 5;
       }
 
@@ -262,6 +294,11 @@ const StyledVideoCallTrigger = styled.div(
         &-wrapper {
           height: calc(100% - 100px);
           justify-content: space-evenly;
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
         }
 
         &-container {
@@ -308,6 +345,11 @@ const StyledVideoCallTrigger = styled.div(
         &-wrapper {
           display: flex;
           justify-content: center;
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
         }
 
         &__form {

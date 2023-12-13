@@ -9,7 +9,7 @@ const ParticipantsRow = styled.div<{ rows: number }>`
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-height: 100%;
+  max-height: ${props => Math.ceil(100 / props.rows)}%;
   margin-bottom: 4px;
   &:last-child {
     margin-bottom: 0px;
@@ -93,7 +93,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   flex: 1;
-  max-height: calc(100vh - 64px - 88px);
+  max-height: calc(100vh - 40px - 88px);
   padding: 16px;
   > ${ParticipantView} {
     width: 100%;

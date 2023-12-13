@@ -1,0 +1,20 @@
+:root {
+  --navy-50: #f6f8fc;
+  --navy-80: #eef2fa;
+  --navy-100: #dee2f2;
+  --navy-200: #c9d0e6;
+  --navy-300: #b6bdd7;
+  --navy-400: #8A92BA;
+  --navy-600: #595e8a;
+  --navy-800: #353761;
+  --navy-900: #212242;
+  --neutral-navy-800: #353761;
+  --white: #ffffff;
+  --purple-300: #825eeb;
+  --purple-400: #6440C4;
+  --green-300: #1fcca1;
+  --green-400: #00998c;
+  --red-300: #f24d6b;
+  --red-400: #d92148;
+  --mute-gray: rgba(255, 255, 255, 0.2);
+}

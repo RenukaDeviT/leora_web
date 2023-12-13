@@ -46,7 +46,7 @@ const DeviceSettings = (props: ReactModal.Props & { close: () => void; title?: s
   }, []);
 
   return (
-    <Modal
+    <Modal 
       shouldCloseOnOverlayClick
       title="Settings"
       content={(

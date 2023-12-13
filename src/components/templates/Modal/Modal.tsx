@@ -43,6 +43,7 @@ const Title = styled.div`
 `;
 
 const Close = styled.div`
+  pos
   width: 32px;
   height: 32px;
   padding: 6px;
@@ -51,6 +52,7 @@ const Close = styled.div`
 `;
 
 const ICClose = styled.div`
+  background-repeat: no-repeat;
   width: 20px;
   height: 20px;
   padding: 4px;

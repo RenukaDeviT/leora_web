@@ -5,7 +5,7 @@ import StyledVideoCallTrigger from './VideoCallTrigger.styles';
 import VideoCallTriggerForm from './components/VideoCallTriggerForm';
 
 const VideoCallTrigger = () => (
-    <StyledVideoCallTrigger className="sign-in">
+    <StyledVideoCallTrigger className="video-call-main">
       <VideoCallHeader />
       <VideoCallTriggerForm />
       <VideoCallImages />
