@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const ButtonCircle = styled.div`
-  width: 64px;
-  height: 64px;
+  width: 50px;
+  height: 50px;
   cursor: pointer;
   border-color: transparent;
   border-radius: 50%;

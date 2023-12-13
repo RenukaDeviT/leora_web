@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import VideoCall from "Pages/VideoCallTrigger/VideoCallTrigger";
+import VideoCall from "Pages/VideoCallTrigger/VideoCall";
 import { routePaths } from "utils/constants";
 import Error from "Pages/Error/Error";
 import EndSession from "Pages/EndSession/EndSession";

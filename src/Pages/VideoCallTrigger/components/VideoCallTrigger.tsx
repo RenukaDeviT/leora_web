@@ -4,8 +4,9 @@ import Loader from "Pages/Loader/Loader";
 import Error from "Pages/Error/Error";
 import VideoRoom from "./VideoRoom";
 import useSBAuthenticate from "../hooks/useSBAuthenticate";
+import StyledVideoCall from "../VideoCall.styles";
 
-const VideoCallTriggerForm = () => {
+const VideoCallTrigger = () => {
   // Get values from query string
   const [searchParams] = useSearchParams();
 
@@ -14,24 +15,21 @@ const VideoCallTriggerForm = () => {
   const type = searchParams.get("type");
 
   const { isLoading, error, room } = useSBAuthenticate({ type, id, sessionId });
-  if (isLoading) {
-    return <Loader />;
-  }
 
   if (error) {
     console.log(error);
     return <Error />;
   }
 
+  if (isLoading || !room) {
+    return <Loader />;
+  }
+
   return (
-    <div>
-      {room && (
-        <div className="video-call-wrapvideo">
-          <VideoRoom room={room} />
-        </div>
-      )}
-    </div>
+    <StyledVideoCall className="video-call-main">
+      <VideoRoom room={room} />
+    </StyledVideoCall>
   );
 };
 
-export default memo(VideoCallTriggerForm);
+export default memo(VideoCallTrigger);

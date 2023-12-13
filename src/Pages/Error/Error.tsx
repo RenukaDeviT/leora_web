@@ -1,4 +1,4 @@
-import SplashLoader from "components/templates/Loader/Index";
+import SplashLoader from "components/templates/Loader/SplashLoader";
 
 const Error = () => {
   console.log("error");

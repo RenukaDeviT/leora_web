@@ -14,6 +14,10 @@ const ParticipantsRow = styled.div<{ rows: number }>`
   &:last-child {
     margin-bottom: 0px;
   }
+  @media (max-width: 500px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 
 const ParticipantView = styled.div<{
@@ -169,8 +173,7 @@ const MediaContent = ({ room }: Props) => {
             </ParticipantOverlay>
           )}
           <ParticipantInfo>
-            {p.isAudioEnabled || <ParticipantMutedIcon />}User ID:{" "}
-            {p.user.userId}
+            {p.isAudioEnabled || <ParticipantMutedIcon />} {p.user.nickname}
           </ParticipantInfo>
         </ParticipantView>
       </Wrapper>
@@ -215,7 +218,7 @@ const MediaContent = ({ room }: Props) => {
                         </ParticipantOverlay>
                       )}
                       <ParticipantInfo>
-                        {p.isAudioEnabled || <ParticipantMutedIcon />}User ID:{" "}
+                        {p.isAudioEnabled || <ParticipantMutedIcon />}{" "}
                         {p.user.nickname}
                       </ParticipantInfo>
                     </ParticipantView>

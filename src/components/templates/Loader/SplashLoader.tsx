@@ -6,7 +6,7 @@ import Logo from "ui/assets/images/Logo.png";
 import React from "react";
 
 const SplashLoader = ({ children }: { children: React.ReactElement }) => {
-  console.log("session ended");
+  console.log("session loading");
   return (
     <Root>
       <Container>
@@ -86,6 +86,9 @@ const Root = styled("main")(({ theme }) => ({
     maxWidth: "100%",
     [theme.breakpoints.down("md")]: {
       left: "25%",
+    },
+    [theme.breakpoints.down("sm")]: {
+      left: "0px",
     },
   },
   [theme.breakpoints.down("md")]: {

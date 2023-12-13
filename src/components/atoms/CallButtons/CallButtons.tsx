@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import ButtonCircle from 'components/atoms/ButtonCircle';
+import ButtonCircle from "components/atoms/ButtonCircle";
 
 export const CallButton = styled(ButtonCircle)`
   margin: 0 10px;
@@ -24,7 +24,6 @@ export const AudioDialButton = styled(DialButton)`
   background-image: url(/icons/ic-callkit-audio-20.svg);
 `;
 
-
 export const VideoCallAcceptButton = styled(CallButton)`
   background-color: #2eba9f;
   background-image: url(/icons/icon-call-video.svg);
@@ -44,6 +43,14 @@ export const AudioCallAcceptButton = styled(CallButton)`
 export const MuteButton = styled(CallButton)`
   background-color: rgba(168, 168, 168, 0.38);
   background-image: url(/icons/ic-callkit-audio-off-white.svg);
+  &:hover {
+    background-color: rgba(168, 168, 168, 0.5);
+  }
+`;
+
+export const SettingsButton = styled(CallButton)`
+  background-color: rgba(168, 168, 168, 0.38);
+  background-image: url(/icons/ic-settings.svg);
   &:hover {
     background-color: rgba(168, 168, 168, 0.5);
   }

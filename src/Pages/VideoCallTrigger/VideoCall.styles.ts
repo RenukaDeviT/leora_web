@@ -4,10 +4,6 @@ import { css } from "@emotion/react";
 
 const StyledVideoCallTrigger = styled.div(
   () => css`
-    padding: 40px 49px;
-    position: relative;
-    width: calc(100% - 98px);
-    height: calc(100vh - 80px);
     overflow: hidden;
     background: #212242;
 
@@ -20,17 +16,6 @@ const StyledVideoCallTrigger = styled.div(
       &-wrapper {
         display: flex;
         align-items: top;
-        position: absolute;
-      }
-
-      &-wrapvideo {
-        display: flex;
-        align-items: top;
-        position: absolute;
-        top: 0;
-        left: 0 !important;
-        bottom: 0;
-        right: 0;
       }
 
       &__header {

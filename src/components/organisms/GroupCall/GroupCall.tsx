@@ -2,6 +2,7 @@ import {
   CallButton,
   EndButton,
   MuteButton,
+  SettingsButton,
   StartVideoButton,
   StopVideoButton,
   UnmuteButton,
@@ -11,8 +12,7 @@ import MediaContent from "components/organisms/GroupCall/MediaContent";
 import type { StatefulRoom } from "lib/sendbird-calls";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled, { css } from "styled-components";
-import { heavy, normal } from "ui/styles/font";
+import styled from "styled-components";
 import { routePaths } from "utils/constants";
 
 // Styles for the page
@@ -36,41 +36,17 @@ const Footer = styled.div`
   padding: 0 48px;
   background-color: black;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   z-index: 10;
 `;
 
-const Button = styled.div`
-  width: 80px;
-  height: 50px;
-  padding: 20px 14px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  ${normal};
-  ${heavy}: letter-spacing: -0.1px;
-  color: var(--white);
-  margin-right: auto;
-`;
-
-const ButtonIcon = styled.div<{ src: string }>`
-  background-image: ${(props) => css`url(${props.src})`};
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 24px;
-  height: 24px;
-`;
-
 const UtilityButtons = styled.div`
-  margin-right: auto;
   height: 100%;
   display: flex;
   align-items: center;
   ${CallButton} {
-    width: 48px;
-    height: 48px;
+    width: 30px;
+    height: 30px;
     background-size: 24px 24px;
     padding: 12px;
   }
@@ -96,11 +72,8 @@ const GroupCall = ({ room }: GroupCallProps) => {
         <MediaContent room={room} />
 
         <Footer>
-          <Button onClick={() => setShowDeviceSettings(true)}>
-            <ButtonIcon src="/icons/ic-settings.svg" />
-            Settings
-          </Button>
           <UtilityButtons>
+            <SettingsButton onClick={() => setShowDeviceSettings(true)} />
             {localParticipant.isAudioEnabled ? (
               <MuteButton onClick={() => localParticipant.muteMicrophone()} />
             ) : (

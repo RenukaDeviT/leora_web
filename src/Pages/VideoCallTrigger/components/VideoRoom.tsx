@@ -44,9 +44,11 @@ const VideoRoom = ({ room }: { room: StatefulRoom }) => {
   return (
     <>
       {onCall && (
-        <Overlay>
-          <GroupCall room={onCall} />
-        </Overlay>
+        <div className="video-call-wrapvideo">
+          <Overlay>
+            <GroupCall room={onCall} />
+          </Overlay>
+        </div>
       )}
     </>
   );

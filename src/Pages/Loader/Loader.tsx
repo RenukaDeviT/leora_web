@@ -1,13 +1,13 @@
-import { Box, Container, LinearProgress } from "@mui/material";
+import SplashLoader from "components/templates/Loader/SplashLoader";
 
 const Loader = () => {
   console.log("loading");
   return (
-    <Container>
-      <Box display="flex" justifyContent="center" alignItems="center">
-        <LinearProgress />
-      </Box>
-    </Container>
+    <SplashLoader>
+      <>
+        <h6 className="content">"Please wait while we connect you..."</h6>
+      </>
+    </SplashLoader>
   );
 };
 
