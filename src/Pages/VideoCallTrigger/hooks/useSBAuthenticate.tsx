@@ -1,6 +1,6 @@
 import api from "api/api";
 import axios from "axios";
-import { decrypt } from "lib/cryptojs/cryptojs";
+// import { decrypt } from "lib/cryptojs/cryptojs";
 import { StatefulRoom, useSbCalls } from "lib/sendbird-calls";
 import { useState, useCallback, useEffect } from "react";
 import { EResponseStatusCodes, TUser } from "utils/types";
@@ -61,16 +61,17 @@ const useSBAuthenticate = ({
     if (!id || !sessionId) return;
 
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { id: user_id, sessionId: session_id } = decrypt({ sessionId, id });
+    // const { decryptId: user_id, decryptSessionId: session_id } = decrypt({ sessionId, id });// eslint-disable-line @typescript-eslint/no-unused-vars
 
     setIsLoading(true);
     try {
       if (apiType === "user_join_session_web") {
         // Call API request by passing parameters
+        // need to change
         const { data: user } = await api.videoGroupCallWeb.user({
           action: apiType,
-          user_id,
-          session_id,
+          user_id: id,
+          session_id: sessionId,
         });
         // set response values
         console.log(user);
@@ -88,10 +89,8 @@ const useSBAuthenticate = ({
           practitioner_id: id,
           session_id: sessionId,
         });
-
         auth(user);
       }
-
       setIsLoading(false);
     } catch (err) {
       if (axios.isAxiosError(err)) {

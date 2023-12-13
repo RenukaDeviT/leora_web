@@ -1,4 +1,4 @@
-import CryptoJS, { AES } from "crypto-js";
+import CryptoJS from "crypto-js";
 import { decryption } from "utils/constants";
 
 const key = CryptoJS.enc.Hex.parse(decryption.key);
@@ -11,6 +11,14 @@ export const decrypt = ({
   id: string;
   sessionId: string;
 }) => {
-  console.log(key, iv, AES);
-  return { id, sessionId };
+   const decryptSessionId = CryptoJS.AES.decrypt(sessionId, key, {
+      iv,
+      mode: CryptoJS.mode.CBC,
+     }).toString(CryptoJS.enc.Utf8);
+
+     const decryptId = CryptoJS.AES.decrypt(id, key, {
+      iv,
+      mode: CryptoJS.mode.CBC,
+     }).toString(CryptoJS.enc.Utf8);
+  return { decryptId, decryptSessionId };
 };

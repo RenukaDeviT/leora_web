@@ -5,6 +5,6 @@ export const routePaths = {
   endSession: "/end_session",
 };
 export const decryption = {
-  key: "8C56F5AD03984EA0A307C0D36BD3326ED4E61605DB9C43DB90522C44B1C9AE6F",
-  iv: "1234567890987654",
+    key: "B3ZTvFVgwc0E7s8y",
+    iv: "DLWU96vzv14bIpfZ"
 };
