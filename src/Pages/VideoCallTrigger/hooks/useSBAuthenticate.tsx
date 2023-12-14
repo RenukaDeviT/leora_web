@@ -73,15 +73,8 @@ const useSBAuthenticate = ({
           user_id: id,
           session_id: sessionId,
         });
-        // set response values
-        console.log(user);
-        // auth(user);
-        auth({
-          sbUserCallAccessToken: "d555bd591c46aba79ebecc8c0106174064a7285b",
-          sbUserId:
-            "sendbird_desk_agent_id_766ff928-9f15-464a-954a-c37d3030e27a",
-          roomId: "9138ebed-4f9a-4dcb-84af-c1e02c21d399",
-        });
+        // set response values        
+        auth(user);
       } else {
         // Call API request by passing parameters
         const { data: user } = await api.videoGroupCallWeb.partctitioner({

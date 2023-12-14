@@ -13,9 +13,11 @@ const VideoCallTrigger = () => {
   const sessionId = searchParams.get("session_id");
   const id = searchParams.get("id");
   const type = searchParams.get("type");
-console.log(id);
   const { isLoading, error, room } = useSBAuthenticate({ type, id, sessionId });
-
+  
+  if (isLoading) {
+    return <Loader />;
+  }
   if (error) {
     console.log(error);
     return <Error />;
