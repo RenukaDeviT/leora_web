@@ -10,7 +10,7 @@ export const title = css`
 `;
 
 export const common = css`
-  font-family: "Avenir Next";
+  font-family: "'Poppins',sans-serif";
   font-style: normal;
   font-weight: normal;
   font-stretch: normal;
@@ -56,6 +56,7 @@ export const demi = css`
 export const heading4text1 = css`
   ${common};
   font-size: 20px;
+  font-family: "'Poppins',sans-serif"
   line-height: 1.4;
   letter-spacing: -0.25px;
 `

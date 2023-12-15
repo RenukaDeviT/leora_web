@@ -1,13 +1,9 @@
 import type {
-    DirectCall,
     LocalParticipant,
     Participant,
     RemoteParticipant,
     Room
   } from 'sendbird-calls';
-  
-  // TODO: 'idle' state
-  export type CallState = 'dialing' | 'ringing' | 'established' | 'connected' | 'reconnecting' | 'reconnected' | 'ended';
   
   export type AudioInputDeviceInfo = {
     current?: InputDeviceInfo;
@@ -21,57 +17,7 @@ import type {
     current?: InputDeviceInfo;
     available: InputDeviceInfo[];
   }
-  
-  export interface StatefulDirectCall extends Pick<
-    DirectCall,
-    | 'callId'
-    | 'caller'
-    | 'callee'
-    | 'isVideoCall'
-    | 'localUser'
-    | 'remoteUser'
-    | 'isLocalAudioEnabled'
-    | 'isRemoteAudioEnabled'
-    | 'isLocalVideoEnabled'
-    | 'isRemoteVideoEnabled'
-    | 'myRole'
-    | 'isOngoing'
-    | 'endedBy'
-    | 'isEnded'
-    | 'endResult'
-    // | 'callLog'
-    // | 'customItems'
-    // | 'localRecordingStatus'
-    // | 'remoteRecordingStatus'
-    | 'localMediaView'
-    | 'remoteMediaView'
-  
-    | 'setLocalMediaView'
-    | 'setRemoteMediaView'
-  
-    | 'stopVideo'
-    | 'startVideo'
-  
-    | 'getDuration'
-    | 'accept'
-    | 'end'
-  
-    | 'muteMicrophone'
-    | 'unmuteMicrophone'
-  
-    // | 'captureLocalVideoView'
-    // | 'captureRemoteVideoView'
-  
-    // | 'updateCustomItems'
-    // | 'deleteCustomItems'
-    // | 'deleteAllCustomItems'
-  
-    // | 'startRecording'
-    // | 'stopRecording'
-    > {
-    callState: CallState;
-  }
-  
+    
   export interface StatefulRoom extends Pick<
     Room,
     | 'roomId'

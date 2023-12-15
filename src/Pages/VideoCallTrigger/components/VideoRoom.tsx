@@ -26,8 +26,18 @@ const VideoRoom = ({ room }: { room: StatefulRoom }) => {
         .then(() => {
           setIsEnter(() => true);
         })
-        .catch((error) => {
-          setError(error);
+        .catch((error: string) => {
+          if(error.includes("The given client is already entered"))
+          {
+            room.exit();
+            enter();
+          }
+          else if(error.includes("client has already entered"))
+          {
+            enter();
+          }
+          else
+            setError(true);
         });
     };
 
@@ -36,7 +46,6 @@ const VideoRoom = ({ room }: { room: StatefulRoom }) => {
   }, []);
 
   if (error) {
-    console.log(error);
     return <Error />;
   }
 

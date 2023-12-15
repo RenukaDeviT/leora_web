@@ -3,7 +3,6 @@ import type { User as SBUser } from 'sendbird-calls';
 import type { State } from './state';
 import { initialState } from './state';
 import type {
-  StatefulDirectCall,
   StatefulRoom,
   AudioInputDeviceInfo,
   AudioOutputDeviceInfo,
@@ -16,10 +15,6 @@ import type {
 export type Action =
   | { type: 'AUTH'; payload: SBUser; }
   | { type: 'DEAUTH'; }
-  | { type: 'ADD_CALL'; payload: StatefulDirectCall; }
-  | { type: 'RINGING'; payload: StatefulDirectCall; }
-  | { type: 'UPDATE_CALL', payload: Partial<StatefulDirectCall>; }
-  | { type: 'CLEAR_CALLS'; }
   | { type: 'ADD_ROOM'; payload: StatefulRoom; }
   | { type: 'UPDATE_ROOM', payload: Partial<StatefulRoom>; }
   | { type: 'UPDATE_ROOM_LOCAL_PARTICIPANT', payload: { roomId: string; participant: Partial<StatefulLocalParticipant>; }; }
@@ -40,31 +35,6 @@ export const reducer = (prevState: State, action: Action): State => {
       });
     case 'DEAUTH':
       return initialState;
-    case 'ADD_CALL':
-      return produce(prevState, draft => {
-        draft.calls.push(castDraft(action.payload));
-      });
-    case 'RINGING': {
-      const isBusy = prevState.calls.some(call => !call.isEnded);
-      const call = action.payload;
-      if (isBusy) {
-        call.end();
-      }
-      return produce(prevState, draft => {
-        draft.calls.push(castDraft(call));
-      });
-    }
-    case 'UPDATE_CALL':
-      return produce(prevState, draft => {
-        const index = draft.calls.findIndex(c => c.callId === action.payload.callId);
-        if (index === -1) return;
-        Object.assign(draft.calls[index], castDraft(action.payload));
-      });
-    case 'CLEAR_CALLS':
-      return produce(prevState, draft => {
-        const conx = draft;
-        conx.calls = castDraft(initialState.calls);
-      });
     case 'ADD_ROOM':
       return produce(prevState, draft => {
         draft.rooms.push(castDraft(action.payload));
@@ -109,7 +79,6 @@ export const reducer = (prevState: State, action: Action): State => {
         const { roomId, participantId } = action.payload;
         const room = draft.rooms.find(c => c.roomId === roomId);
         if (!room) return;
-
         const index = room.remoteParticipants.findIndex(p => p.participantId === participantId);
         if (index === -1) return;
         room.remoteParticipants.splice(index, 1);

@@ -3,7 +3,6 @@ import type {
 } from 'sendbird-calls';
 
 import type {
-  StatefulDirectCall,
   AudioInputDeviceInfo,
   AudioOutputDeviceInfo,
   VideoInputDeviceInfo,
@@ -13,7 +12,6 @@ import type {
 /** Types */
 export type State = {
   readonly user?: SBUser;
-  readonly calls: StatefulDirectCall[];
   readonly rooms: StatefulRoom[];
   readonly audioInputDeviceInfo: AudioInputDeviceInfo,
   readonly audioOutputDeviceInfo: AudioOutputDeviceInfo,
@@ -23,7 +21,6 @@ export type State = {
 /** State */
 export const initialState: State = {
   user: undefined,
-  calls: [],
   rooms: [],
   audioInputDeviceInfo: { current: undefined, available: [] },
   audioOutputDeviceInfo: { current: undefined, available: [] },

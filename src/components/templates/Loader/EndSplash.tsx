@@ -6,7 +6,7 @@ import React from "react";
 const EndSplash = ({ children }: { children: React.ReactElement }) => {
   console.log("session ended");
   return (
-    <Root>
+    <Root style={{overflow: 'hidden'}}>
       <Container>
         <Grid container alignContent="center">
           <Grid
@@ -46,6 +46,7 @@ const Root = styled("main")(({ theme }) => ({
     height: "100vh",
   },
   "& .leoraImage": {
+    height: "100vh",
     maxWidth: "100%",
     width: "20rem",
     position: "relative",
@@ -95,6 +96,7 @@ const Root = styled("main")(({ theme }) => ({
   },
   "& .content": {
     fontSize: `2rem`,
+    fontFamily: `'Poppins', sans-serif`,
     lineHeight: `3rem`,
     [theme.breakpoints.down("md")]: {
       fontSize: `1rem`,

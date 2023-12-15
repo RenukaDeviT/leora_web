@@ -1,49 +1,14 @@
-import type { DirectCall, LocalParticipant, RemoteParticipant, Room } from 'sendbird-calls';
+import type { LocalParticipant, RemoteParticipant, Room } from 'sendbird-calls';
 import type { Action } from './reducer';
 import type {
-  StatefulDirectCall,
   StatefulLocalParticipant,
   StatefulRemoteParticipant,
   StatefulRoom,
 } from './types';
 
-const registerDirectCallListeners = (
-  funcCall: DirectCall,
-  dispatchUpdate: (part: Partial<StatefulDirectCall>) => void,
-) => {
-  const call = funcCall;
-  call.onEstablished = (call: DirectCall) => {// eslint-disable-line @typescript-eslint/no-unused-vars
-    dispatchUpdate({ callState: 'established' });
-  };
-  call.onConnected = (call: DirectCall) => {// eslint-disable-line @typescript-eslint/no-unused-vars
-    dispatchUpdate({ callState: 'connected' });
-  };
-  call.onReconnected = (call: DirectCall) => {// eslint-disable-line @typescript-eslint/no-unused-vars
-    dispatchUpdate({ callState: 'reconnected' });
-  };
-  call.onReconnecting = (call: DirectCall) => {// eslint-disable-line @typescript-eslint/no-unused-vars
-    dispatchUpdate({ callState: 'reconnecting' });
-  };
-  call.onEnded = (call: DirectCall) => {// eslint-disable-line @typescript-eslint/no-unused-vars
-    dispatchUpdate({ callState: 'ended' });
-  };
-  call.onRemoteAudioSettingsChanged = (call: DirectCall) => {
-    dispatchUpdate({ isRemoteAudioEnabled: call.isRemoteAudioEnabled });
-  };
-  call.onRemoteVideoSettingsChanged = (call: DirectCall) => {
-    dispatchUpdate({ isRemoteVideoEnabled: call.isRemoteVideoEnabled });
-  };
-  // onCustomItemsUpdated() {
-  //
-  // },
-  // onCustomItemsDeleted() {
-  //
-  // },
-};
-
 export const statefyRoom = (
   room: Room,
-  dispatch: React.Dispatch<Action>,
+  dispatch: React.Dispatch<Action>
 ): StatefulRoom => {
   const dispatchUpdate = (part: Partial<StatefulRoom>) => {
     const payload = {
@@ -96,7 +61,7 @@ export const statefyRoom = (
   room.on('remoteAudioSettingsChanged', upsertRemoteParticipant);
   room.on('remoteVideoSettingsChanged', upsertRemoteParticipant);
   room.on('error', error => {
-    console.error(error); // TODO:
+    throw error;
   });
   return {
     roomId: room.roomId,
@@ -109,11 +74,18 @@ export const statefyRoom = (
     enter(params) {
       return room.enter(params).then(() => {
         updateRoom();
+      }).catch((error) => { 
+        throw error.message;
       });
     },
     exit() {
+      try {
       room.exit();
       updateRoom();
+      }
+      catch(err) {
+        throw new Error("Participant already exited");
+      }
     },
   };
 };
@@ -178,77 +150,3 @@ export const statefyRemoteParticipant = (
   };
 };
 
-export const statefyDirectCall = (
-  call: DirectCall,
-  dispatch: React.Dispatch<Action>,
-  registerListener: boolean = true,
-): StatefulDirectCall => {
-  const dispatchUpdate = (part: Partial<StatefulDirectCall>) => {
-    const payload = {
-      callId: call.callId,
-      ...part,
-    };
-    dispatch({ type: 'UPDATE_CALL', payload });
-  };
-
-  if (registerListener) {
-    registerDirectCallListeners(call, dispatchUpdate);
-  }
-
-  return {
-    callState: (call.localUser.userId === call.caller.userId) ? 'dialing' : 'ringing',
-    callId: call.callId,
-    caller: call.caller, // This should not mutate
-    callee: call.callee, // This should not mutate
-    isVideoCall: call.isVideoCall,
-    localUser: call.localUser, // This should not mutate
-    remoteUser: call.remoteUser, // This should not mutate
-    isLocalAudioEnabled: call.isLocalAudioEnabled,
-    isRemoteAudioEnabled: call.isRemoteAudioEnabled,
-    isLocalVideoEnabled: call.isLocalVideoEnabled,
-    isRemoteVideoEnabled: call.isRemoteVideoEnabled,
-    myRole: call.myRole,
-    isOngoing: call.isOngoing,
-    endedBy: call.endedBy, // This should not mutate
-    isEnded: call.isEnded,
-    endResult: call.endResult,
-    localMediaView: call.localMediaView,
-    remoteMediaView: call.remoteMediaView,
-
-    setLocalMediaView(mediaView) {
-      dispatchUpdate({ localMediaView: mediaView });
-      return call.setLocalMediaView(mediaView);
-    },
-    setRemoteMediaView(mediaView) {
-      dispatchUpdate({ remoteMediaView: mediaView });
-      return call.setRemoteMediaView(mediaView);
-    },
-
-    stopVideo() {
-      dispatchUpdate({ isLocalVideoEnabled: false });
-      return call.stopVideo();
-    },
-    startVideo() {
-      dispatchUpdate({ isLocalVideoEnabled: true });
-      return call.startVideo();
-    },
-    getDuration() {
-      return call.getDuration();
-    },
-    accept(params) {
-      return call.accept(params);
-    },
-    end() {
-      return call.end();
-    },
-
-    muteMicrophone() {
-      dispatchUpdate({ isLocalAudioEnabled: false });
-      return call.muteMicrophone();
-    },
-    unmuteMicrophone() {
-      dispatchUpdate({ isLocalAudioEnabled: true });
-      return call.unmuteMicrophone();
-    },
-  };
-};

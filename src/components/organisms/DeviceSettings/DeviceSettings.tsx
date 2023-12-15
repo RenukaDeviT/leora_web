@@ -46,14 +46,14 @@ const DeviceSettings = (props: ReactModal.Props & { close: () => void; title?: s
   }, []);
 
   return (
-    <Modal 
+    <Modal
       shouldCloseOnOverlayClick
       title="Settings"
       content={(
         <>
           <SelectContainer>
-            <SelectLabel htmlFor="camera-select">Camera</SelectLabel>
-            <Select
+            <SelectLabel style={{fontFamily: "'Poppins',sans-serif"}} htmlFor="camera-select">Camera</SelectLabel>
+            <Select style={{fontFamily: "'Poppins',sans-serif"}}
               id="camera-select"
               defaultValue={sbCalls.videoInputDeviceInfo.current?.deviceId}
               onChange={e => {
@@ -69,8 +69,8 @@ const DeviceSettings = (props: ReactModal.Props & { close: () => void; title?: s
           </SelectContainer>
 
           <SelectContainer>
-            <SelectLabel htmlFor="microphone-select">Microphone</SelectLabel>
-            <Select
+            <SelectLabel style={{fontFamily: "'Poppins',sans-serif"}} htmlFor="microphone-select">Microphone</SelectLabel>
+            <Select style={{fontFamily: "'Poppins',sans-serif"}}
               id="microphone-select"
               defaultValue={sbCalls.audioInputDeviceInfo.current?.deviceId}
               onChange={e => {
@@ -86,8 +86,8 @@ const DeviceSettings = (props: ReactModal.Props & { close: () => void; title?: s
           </SelectContainer>
 
           <SelectContainer>
-            <SelectLabel htmlFor="speaker-select">Speaker</SelectLabel>
-            <Select
+            <SelectLabel style={{fontFamily: "'Poppins',sans-serif"}} htmlFor="speaker-select">Speaker</SelectLabel>
+            <Select style={{fontFamily: "'Poppins',sans-serif"}}
               id="speaker-select"
               defaultValue={sbCalls.audioOutputDeviceInfo.current?.deviceId}
               onChange={e => {

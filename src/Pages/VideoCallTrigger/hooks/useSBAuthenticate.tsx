@@ -29,6 +29,7 @@ const useSBAuthenticate = ({
 
   const auth = useCallback(
     async (user: TUser) => {
+      try {
       // set response values
       if (user) {
         // set response values
@@ -51,6 +52,12 @@ const useSBAuthenticate = ({
       } else {
         setError("Error! User doesnot exists");
       }
+    }
+    catch
+    {
+      setError("Error occurs");  
+      setIsLoading(false);
+    }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -77,7 +84,7 @@ const useSBAuthenticate = ({
         auth(user);
       } else {
         // Call API request by passing parameters
-        const { data: user } = await api.videoGroupCallWeb.partctitioner({
+        const { data: user } = await api.videoGroupCallWeb.practitioner({
           action: apiType,
           practitioner_id: id,
           session_id: sessionId,
@@ -93,7 +100,6 @@ const useSBAuthenticate = ({
           setError("Please enter the correct url.");
         }
       }
-
       setIsLoading(false);
     }
   }, [apiType, auth, id, sessionId]);

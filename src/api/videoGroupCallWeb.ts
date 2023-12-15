@@ -26,7 +26,7 @@ export const user = (data: TParams): Promise<TCommonResponseType<TUser>> =>
     data,
   });
 
-export const partctitioner = (
+export const practitioner = (
   data: TPracParams
 ): Promise<TCommonResponseType<TUser>> =>
   makeRequest<TCommonResponseType<TUser>>({

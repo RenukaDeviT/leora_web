@@ -1,9 +1,7 @@
 import { createContext } from 'react';
-
-import SendbirdCall, { RoomParams, RoomType } from 'sendbird-calls';
-import type { DialParams } from 'sendbird-calls';
+import SendbirdCall, { RoomType } from 'sendbird-calls';
 import { State, initialState } from './state';
-import type { StatefulDirectCall, StatefulRoom } from './types';
+import type { StatefulRoom } from './types';
 
 /** Context */
 export type ContextType = State & {
@@ -18,15 +16,7 @@ export type ContextType = State & {
   selectAudioOutputDevice: (deviceInfo: MediaDeviceInfo) => void;
   selectVideoInputDevice: (deviceInfo: InputDeviceInfo) => void;
 
-  // Direct Calls
-  isBusy: boolean;
-  currentCall?: StatefulDirectCall;
-  dial: (params: DialParams) => Promise<StatefulDirectCall>;
-  addDirectCallSound: typeof SendbirdCall.addDirectCallSound;
-  clearCalls: () => void;
-
   // Rooms
-  createRoom: (options: RoomParams) => Promise<StatefulRoom>,
   getCachedRoomById: (roomId: string) => StatefulRoom | undefined,
   fetchRoomById: (roomId: string) => Promise<StatefulRoom>,
   RoomType: typeof RoomType,
@@ -49,15 +39,7 @@ export const initialContext: ContextType = {
   selectAudioOutputDevice: stub,
   selectVideoInputDevice: stub,
 
-  // Direct Calls
-  isBusy: false,
-  currentCall: undefined,
-  dial: stub,
-  addDirectCallSound: stub,
-  clearCalls: stub,
-
   // Rooms
-  createRoom: stub,
   getCachedRoomById: stub,
   fetchRoomById: stub,
   RoomType,

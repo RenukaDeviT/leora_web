@@ -102,7 +102,7 @@ const Modal = (
     >
       <Wrapper>
         <Header>
-          <Title>{props.title}</Title>
+          <Title style={{fontFamily: "'Poppins',sans-serif"}}>{props.title}</Title>
           <Close onClick={() => props.close()}><ICClose/></Close>
         </Header>
         <Content>

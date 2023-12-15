@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { camelizeKeys } from "humps";
 import config from "config";
+import useErrorHandler from "../Pages/VideoCallTrigger/hooks/useErrorHandler"
 
 const CONNECTION_TIMEOUT_IN_MS = 8000;
 
@@ -25,8 +26,8 @@ axiosInstance.interceptors.response.use(
     // error code check
     if (err?.response?.status === 401 || err?.response?.status === 403) {
       console.log(err); // eslint-disable-line no-console
+      useErrorHandler();
     }
-    throw err;
   }
 );
 

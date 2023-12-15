@@ -8,7 +8,6 @@ export type {
   AudioInputDeviceInfo,
   AudioOutputDeviceInfo,
   VideoInputDeviceInfo,
-  StatefulDirectCall,
   StatefulRoom,
   StatefulParticipant,
   StatefulLocalParticipant,

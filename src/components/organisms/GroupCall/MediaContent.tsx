@@ -51,6 +51,7 @@ const ParticipantView = styled.div<{
 
 const ParticipantInfo = styled.div`
   display: flex;
+  font-family: 'Poppins',sans-serif;
   align-items: center;
   position: absolute;
   left: 0;
@@ -132,7 +133,6 @@ const MediaContent = ({ room }: Props) => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
     }
-
     window.addEventListener("resize", handleResize);
   }, []);
 
@@ -172,7 +172,7 @@ const MediaContent = ({ room }: Props) => {
               <Avatar url={p.user.profileUrl} />
             </ParticipantOverlay>
           )}
-          <ParticipantInfo>
+          <ParticipantInfo style={{fontFamily: "'Poppins',sans-serif"}}>
             {p.isAudioEnabled || <ParticipantMutedIcon />} {p.user.nickname}
           </ParticipantInfo>
         </ParticipantView>
@@ -217,7 +217,7 @@ const MediaContent = ({ room }: Props) => {
                           <Avatar url={p.user.profileUrl} />
                         </ParticipantOverlay>
                       )}
-                      <ParticipantInfo>
+                      <ParticipantInfo style={{fontFamily: "'Poppins',sans-serif"}}>
                         {p.isAudioEnabled || <ParticipantMutedIcon />}{" "}
                         {p.user.nickname}
                       </ParticipantInfo>

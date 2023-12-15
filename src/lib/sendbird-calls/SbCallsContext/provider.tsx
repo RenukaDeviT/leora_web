@@ -2,17 +2,15 @@ import {
   ReactElement,
   useCallback,
   useEffect,
-  useMemo,
   useReducer,
 } from "react";
-import type { AuthOption, DirectCall } from "sendbird-calls";
+import type { AuthOption } from "sendbird-calls";
 import SendbirdCall, { LoggerLevel, RoomType } from "sendbird-calls";
-
 import CallContext, { initialContext } from "./context";
 import type { ContextType } from "./context";
 import { reducer } from "./reducer";
 import { initialState } from "./state";
-import { statefyDirectCall, statefyRoom } from "./statefy";
+import { statefyRoom } from "./statefy";
 
 /**
  * Provider
@@ -32,12 +30,6 @@ const SbCallsProvider = ({
   children: ReactElement;
 }): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { calls } = state;
-  const currentCall = useMemo(
-    () => calls.find((call) => !call.isEnded),
-    [calls]
-  );
-  const isBusy = useMemo(() => calls.some((call) => !call.isEnded), [calls]);
 
   // Sendbird initilize
   const init = useCallback<ContextType["init"]>((nAppId) => {
@@ -47,6 +39,7 @@ const SbCallsProvider = ({
     } catch (error) {
       console.log("SendbirdCall is not initialized yet to remove listener");
     }
+    try {
     SendbirdCall.init(nAppId);
     SendbirdCall.setLoggerLevel(LoggerLevel.ERROR);
     SendbirdCall.addListener(listenerId, {
@@ -70,6 +63,10 @@ const SbCallsProvider = ({
       },
     });
     SendbirdCall.updateMediaDevices({ audio: true, video: true });
+  }
+  catch {
+    throw new Error('Sendbird not initialized');
+  }
   }, []);
 
   useEffect(() => {
@@ -77,20 +74,41 @@ const SbCallsProvider = ({
   }, [appId, init]);
 
   // Sendbird AUthentication
+  const ringingListenerId = 'sb-call-listener';
   const auth = useCallback(async (authOption: AuthOption) => {
+    try {
     const user = await SendbirdCall.authenticate(authOption);
-
+    SendbirdCall.addListener(ringingListenerId, {
+      onAudioInputDeviceChanged: (current, available) => {},// eslint-disable-line @typescript-eslint/no-unused-vars
+      onAudioOutputDeviceChanged: (current, available) => {},// eslint-disable-line @typescript-eslint/no-unused-vars
+      onVideoInputDeviceChanged: (current, available) => {},// eslint-disable-line @typescript-eslint/no-unused-vars
+    });
+    try {
     // Connect web socket
     await SendbirdCall.connectWebSocket();
-
+    }
+    catch {
+      throw new Error('Socket fails');
+    }
     dispatch({ type: "AUTH", payload: user });
     return user;
+  }
+  catch(err)
+  {
+    throw new Error("Authentication failure");
+  }
   }, []);
 
   // Authentication deactivate
   const deauth = useCallback<ContextType["deauth"]>(() => {
+    try {
+    SendbirdCall.removeListener(ringingListenerId);
     SendbirdCall.deauthenticate();
     dispatch({ type: "DEAUTH" });
+  }
+  catch {
+    throw new Error('Authentication deactivate');
+  }
   }, []);
 
   /*
@@ -98,7 +116,12 @@ const SbCallsProvider = ({
    */
   const updateMediaDevices = useCallback<ContextType["updateMediaDevices"]>(
     (constraints) => {
+      try {
       SendbirdCall.updateMediaDevices(constraints);
+      }
+      catch {
+        throw new Error('Error occurs while updating media device');
+      }
     },
     []
   );
@@ -106,67 +129,51 @@ const SbCallsProvider = ({
   const selectAudioInputDevice = useCallback<
     ContextType["selectAudioInputDevice"]
   >((mediaInfo: InputDeviceInfo) => {
+    try {
     SendbirdCall.selectAudioInputDevice(mediaInfo);
     dispatch({
       type: "UPDATE_AUDIO_INPUT_DEVICE_INFO",
       payload: { current: mediaInfo },
     });
+  }
+  catch {
+    throw new Error('Error occurs while updating audio input device');
+  }
   }, []);
 
   const selectAudioOutputDevice = useCallback<
     ContextType["selectAudioOutputDevice"]
   >((mediaInfo: MediaDeviceInfo) => {
+    try {
     SendbirdCall.selectAudioOutputDevice(mediaInfo);
     dispatch({
       type: "UPDATE_AUDIO_OUTPUT_DEVICE_INFO",
       payload: { current: mediaInfo },
     });
+  }
+  catch {
+    throw new Error('Error occurs while updating audio output device');
+  }
   }, []);
 
   const selectVideoInputDevice = useCallback<
     ContextType["selectVideoInputDevice"]
   >((mediaInfo: InputDeviceInfo) => {
+    try {
     SendbirdCall.selectVideoInputDevice(mediaInfo);
     dispatch({
       type: "UPDATE_VIDEO_INPUT_DEVICE_INFO",
       payload: { current: mediaInfo },
     });
-  }, []);
-
-  /*
-    Direct Calls
-   */
-  const dial = useCallback<ContextType["dial"]>(
-    (params) =>
-      new Promise((res, rej) => {
-        // TODO: this is really confusing...
-        SendbirdCall.dial(params, (call, error) => {
-          const statefulCall = statefyDirectCall(call as DirectCall, dispatch);
-          if (error) {
-            rej(error);
-            return;
-          }
-          dispatch({ type: "ADD_CALL", payload: statefulCall });
-          res(statefulCall);
-        });
-      }),
-    []
-  );
-
-  const clearCalls = useCallback(() => {
-    dispatch({ type: "CLEAR_CALLS" });
+  }
+  catch {
+    throw new Error('Error occurs while updating video input device');
+  }
   }, []);
 
   /*
     Rooms
    */
-  const createRoom = useCallback<ContextType["createRoom"]>(async (options) => {
-    const room = await SendbirdCall.createRoom(options);
-    const statefulRoom = statefyRoom(room, dispatch);
-    dispatch({ type: "ADD_ROOM", payload: statefulRoom });
-    return statefulRoom;
-  }, []);
-
   const getCachedRoomById = useCallback<ContextType["getCachedRoomById"]>(
     (roomId) => state.rooms.find((x) => x.roomId === roomId),
     [state.rooms]
@@ -174,6 +181,7 @@ const SbCallsProvider = ({
 
   const fetchRoomById = useCallback<ContextType["fetchRoomById"]>(
     async (roomId) => {
+      try {
       const room = await SendbirdCall.fetchRoomById(roomId);
       const statefulRoom = statefyRoom(room, dispatch);
       if (state.rooms.find((x) => x.roomId === room.roomId)) {
@@ -182,6 +190,10 @@ const SbCallsProvider = ({
         dispatch({ type: "ADD_ROOM", payload: statefulRoom });
       }
       return statefulRoom;
+    }
+    catch(err) {
+      throw new Error("Error occurs while fetching the room");
+    }
     },
     [state.rooms]
   );
@@ -199,15 +211,7 @@ const SbCallsProvider = ({
     selectAudioOutputDevice,
     selectVideoInputDevice,
 
-    // Direct Calls
-    currentCall,
-    isBusy,
-    dial,
-    addDirectCallSound: SendbirdCall.addDirectCallSound,
-    clearCalls,
-
     // Rooms
-    createRoom,
     getCachedRoomById,
     fetchRoomById,
     RoomType,

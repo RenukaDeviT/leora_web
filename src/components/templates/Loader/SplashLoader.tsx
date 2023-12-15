@@ -102,7 +102,8 @@ const Root = styled("main")(({ theme }) => ({
     },
   },
   "& .content": {
-    fontSize: `2rem`,
+    fontSize: `2rem`,    
+    fontFamily: `'Poppins', sans-serif`,
     lineHeight: `3rem`,
     [theme.breakpoints.down("md")]: {
       fontSize: `1rem`,
