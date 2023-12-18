@@ -6,6 +6,7 @@ import {
 } from "react";
 import type { AuthOption } from "sendbird-calls";
 import SendbirdCall, { LoggerLevel, RoomType } from "sendbird-calls";
+import { useAlert } from "context/Alert";
 import CallContext, { initialContext } from "./context";
 import type { ContextType } from "./context";
 import { reducer } from "./reducer";
@@ -30,6 +31,7 @@ const SbCallsProvider = ({
   children: ReactElement;
 }): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { show } = useAlert();
 
   // Sendbird initilize
   const init = useCallback<ContextType["init"]>((nAppId) => {
@@ -183,7 +185,7 @@ const SbCallsProvider = ({
     async (roomId) => {
       try {
       const room = await SendbirdCall.fetchRoomById(roomId);
-      const statefulRoom = statefyRoom(room, dispatch);
+      const statefulRoom = statefyRoom(room, dispatch, show);
       if (state.rooms.find((x) => x.roomId === room.roomId)) {
         dispatch({ type: "UPDATE_ROOM", payload: statefulRoom });
       } else {
@@ -195,7 +197,7 @@ const SbCallsProvider = ({
       throw new Error("Error occurs while fetching the room");
     }
     },
-    [state.rooms]
+    [state.rooms, show]
   );
   const callContext: ContextType = {
     ...initialContext,

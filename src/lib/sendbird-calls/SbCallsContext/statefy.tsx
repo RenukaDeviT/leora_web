@@ -8,7 +8,8 @@ import type {
 
 export const statefyRoom = (
   room: Room,
-  dispatch: React.Dispatch<Action>
+  dispatch: React.Dispatch<Action>,  
+  show: (message: string, type?: "success" | "error" | undefined) => void
 ): StatefulRoom => {
   const dispatchUpdate = (part: Partial<StatefulRoom>) => {
     const payload = {
@@ -19,7 +20,7 @@ export const statefyRoom = (
   };
 
   const updateRoom = () => {
-    dispatchUpdate(statefyRoom(room, dispatch));
+    dispatchUpdate(statefyRoom(room, dispatch, show));
   };
 
   const updateLocalParticipant = (participant: Partial<StatefulLocalParticipant>) => {
@@ -61,7 +62,8 @@ export const statefyRoom = (
   room.on('remoteAudioSettingsChanged', upsertRemoteParticipant);
   room.on('remoteVideoSettingsChanged', upsertRemoteParticipant);
   room.on('error', error => {
-    throw error;
+    show(error.message, "error");
+    window.location.href = "/error";
   });
   return {
     roomId: room.roomId,
@@ -83,8 +85,9 @@ export const statefyRoom = (
       room.exit();
       updateRoom();
       }
-      catch(err) {
-        throw new Error("Participant already exited");
+      catch(error: any) {        
+        show(error, "error");
+        window.location.href = "/error";
       }
     },
   };

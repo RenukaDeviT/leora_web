@@ -5,9 +5,7 @@ import CloudMiddle from "ui/assets/images/Cloud-middle.png";
 import Logo from "ui/assets/images/Logo.png";
 import React from "react";
 
-const SplashLoader = ({ children }: { children: React.ReactElement }) => {
-  console.log("session loading");
-  return (
+const SplashLoader = ({ children }: { children: React.ReactElement }) => (
     <Root>
       <Container>
         <Grid container alignContent="center">
@@ -40,7 +38,6 @@ const SplashLoader = ({ children }: { children: React.ReactElement }) => {
       </Container>
     </Root>
   );
-};
 
 export default SplashLoader;
 

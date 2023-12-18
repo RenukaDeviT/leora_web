@@ -60,7 +60,7 @@ const GroupCall = ({ room }: GroupCallProps) => {
   const { participants, localParticipant, remoteParticipants } = room; // eslint-disable-line @typescript-eslint/no-unused-vars
 
   const navigate = useNavigate();
-
+  
   const onExit = () => {
     room.exit();
     navigate(routePaths.endSession);

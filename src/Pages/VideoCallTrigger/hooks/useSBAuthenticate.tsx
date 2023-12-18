@@ -4,6 +4,7 @@ import axios from "axios";
 import { StatefulRoom, useSbCalls } from "lib/sendbird-calls";
 import { useState, useCallback, useEffect } from "react";
 import { EResponseStatusCodes, TUser } from "utils/types";
+import config from 'config';
 
 // const plainSessionText = "07af7e8f-0667-44c4-9fee-e0aa8a77cb12";
 // const plainIdText = "a886ab89-3e69-4ef6-80d3-479396dab6f7";
@@ -32,6 +33,7 @@ const useSBAuthenticate = ({
       try {
       // set response values
       if (user) {
+        sbCalls.init(config.appId);
         // set response values
         // The USER_ID below should be unique to your Sendbird application.
         const authOption = {

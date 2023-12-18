@@ -25,7 +25,6 @@ axiosInstance.interceptors.response.use(
   async (err) => {
     // error code check
     if (err?.response?.status === 401 || err?.response?.status === 403) {
-      console.log(err); // eslint-disable-line no-console
       useErrorHandler();
     }
   }

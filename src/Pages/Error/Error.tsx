@@ -1,8 +1,6 @@
 import SplashLoader from "components/templates/Loader/SplashLoader";
 
-const Error = () => {
-  console.log("error");
-  return (
+const Error = () => (
     <SplashLoader>
       <>
         <h6 className="content yellow">
@@ -15,6 +13,5 @@ const Error = () => {
       </>
     </SplashLoader>
   );
-};
 
 export default Error;

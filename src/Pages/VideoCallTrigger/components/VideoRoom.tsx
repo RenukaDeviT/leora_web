@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import Overlay from "components/atoms/Overlay";
 import GroupCall from "components/organisms/GroupCall";
 import { StatefulRoom, useSbCalls } from "lib/sendbird-calls";
@@ -51,14 +52,16 @@ const VideoRoom = ({ room }: { room: StatefulRoom }) => {
 
   if (!isEnter) return null;
   return (
-    <>
-      {onCall && (
-        <div className="video-call-wrapvideo">
-          <Overlay>
-            <GroupCall room={onCall} />
-          </Overlay>
-        </div>
-      )}
+    <>    
+      <ErrorBoundary fallback={<Error />}>
+          {onCall && (
+            <div className="video-call-wrapvideo">
+              <Overlay>
+                <GroupCall room={onCall} />
+              </Overlay>
+            </div>
+          )}
+      </ErrorBoundary>
     </>
   );
 };

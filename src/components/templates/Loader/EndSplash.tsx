@@ -3,9 +3,7 @@ import LeoraMeditating from "ui/assets/images/Leora-profile.png";
 import Logo from "ui/assets/images/Logo.png";
 import React from "react";
 
-const EndSplash = ({ children }: { children: React.ReactElement }) => {
-  console.log("session ended");
-  return (
+const EndSplash = ({ children }: { children: React.ReactElement }) =>  (
     <Root style={{overflow: 'hidden'}}>
       <Container>
         <Grid container alignContent="center">
@@ -32,7 +30,6 @@ const EndSplash = ({ children }: { children: React.ReactElement }) => {
       </Container>
     </Root>
   );
-};
 
 export default EndSplash;
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { StatefulRoom } from "lib/sendbird-calls/SbCallsContext";
+import { useSbCalls, type StatefulRoom } from "lib/sendbird-calls/SbCallsContext";
 import styled, { css } from "styled-components";
 import { normal } from "ui/styles/font";
 
@@ -116,7 +116,7 @@ const Wrapper = styled.div`
 type Props = { room: StatefulRoom };
 const MediaContent = ({ room }: Props) => {
   const { participants, localParticipant, remoteParticipants } = room;
-
+  const sbCalls = useSbCalls();
   const getWindowDimensions = () => {
     const { innerWidth: width, innerHeight: height } = window;
     return {
@@ -136,17 +136,6 @@ const MediaContent = ({ room }: Props) => {
     window.addEventListener("resize", handleResize);
   }, []);
 
-  console.log(
-    JSON.stringify(
-      participants.map((x) => ({
-        id: x.participantId,
-        audio: x.isAudioEnabled,
-      })),
-      null,
-      4
-    )
-  );
-
   if (!remoteParticipants.length) {
     const p = localParticipant;
     return (
@@ -158,6 +147,7 @@ const MediaContent = ({ room }: Props) => {
           height={windowDimensions.height}
         >
           {/* eslint-disable jsx-a11y/media-has-caption */}
+          { sbCalls.videoInputDeviceInfo.current?.deviceId ?
           <video
             autoPlay
             playsInline
@@ -167,6 +157,11 @@ const MediaContent = ({ room }: Props) => {
               p.setMediaView(el);
             }}
           />
+          :
+          <ParticipantOverlay style={{fontFamily: "'Poppins',sans-serif"}}>
+              "Camera Not available"
+            </ParticipantOverlay>
+        }
           {p.isVideoEnabled || (
             <ParticipantOverlay>
               <Avatar url={p.user.profileUrl} />
