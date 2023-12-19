@@ -15,7 +15,7 @@ const Alert = () => {
     <>
       <Snackbar
         open={isVisible}
-        autoHideDuration={6000}
+        autoHideDuration={60000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >

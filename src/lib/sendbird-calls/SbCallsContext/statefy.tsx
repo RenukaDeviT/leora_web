@@ -8,8 +8,7 @@ import type {
 
 export const statefyRoom = (
   room: Room,
-  dispatch: React.Dispatch<Action>,  
-  show: (message: string, type?: "success" | "error" | undefined) => void
+  dispatch: React.Dispatch<Action>
 ): StatefulRoom => {
   const dispatchUpdate = (part: Partial<StatefulRoom>) => {
     const payload = {
@@ -20,7 +19,7 @@ export const statefyRoom = (
   };
 
   const updateRoom = () => {
-    dispatchUpdate(statefyRoom(room, dispatch, show));
+    dispatchUpdate(statefyRoom(room, dispatch));
   };
 
   const updateLocalParticipant = (participant: Partial<StatefulLocalParticipant>) => {
@@ -62,7 +61,9 @@ export const statefyRoom = (
   room.on('remoteAudioSettingsChanged', upsertRemoteParticipant);
   room.on('remoteVideoSettingsChanged', upsertRemoteParticipant);
   room.on('error', error => {
-    show(error.message, "error");
+    // show(error.message, "error");
+    localStorage.clear();
+    localStorage.setItem('error', error.message);
     window.location.href = "/error";
   });
   return {
@@ -85,8 +86,9 @@ export const statefyRoom = (
       room.exit();
       updateRoom();
       }
-      catch(error: any) {        
-        show(error, "error");
+      catch(error: any) {                
+        localStorage.clear();
+        localStorage.setItem('error', error);
         window.location.href = "/error";
       }
     },

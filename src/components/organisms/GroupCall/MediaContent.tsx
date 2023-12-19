@@ -159,7 +159,7 @@ const MediaContent = ({ room }: Props) => {
           />
           :
           <ParticipantOverlay style={{fontFamily: "'Poppins',sans-serif"}}>
-              "Camera Not available"
+              "Camera not available"
             </ParticipantOverlay>
         }
           {p.isVideoEnabled || (

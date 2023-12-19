@@ -1,6 +1,23 @@
 import SplashLoader from "components/templates/Loader/SplashLoader";
+import { useEffect } from "react";
+import { useAlert } from "context/Alert";
 
-const Error = () => (
+const Error = () => {    
+  const { show, hide } = useAlert();
+
+  useEffect(() => {
+      const err = localStorage.getItem('error');
+      if(err)
+      {     
+        show(err, "error"); 
+         // Creating a timeout within the useEffect hook
+         setTimeout(() => {
+          hide();
+        }, 15000);     
+      }
+  }, []);
+  
+  return (
     <SplashLoader>
       <>
         <h6 className="content yellow">
@@ -12,6 +29,7 @@ const Error = () => (
         </h6>
       </>
     </SplashLoader>
-  );
+  )
+};
 
 export default Error;
