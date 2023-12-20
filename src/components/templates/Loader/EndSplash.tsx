@@ -40,7 +40,7 @@ const Root = styled("main")(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: "100vh",
+    height: "100vh"
   },
   "& .leoraImage": {
     height: "100vh",
@@ -49,7 +49,8 @@ const Root = styled("main")(({ theme }) => ({
     position: "relative",
     zIndex: 2,
     [theme.breakpoints.down("md")]: {
-      width: "15rem",
+      width: "auto",
+      height: "calc(100vh - 200px)"
     },
   },
   "& .logo": {
