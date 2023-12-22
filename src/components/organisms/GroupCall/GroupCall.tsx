@@ -39,6 +39,21 @@ const Footer = styled.div`
   justify-content: center;
   z-index: 10;
 `;
+const Copyrights = styled.div`
+  height: 88px;
+  padding: 0 48px;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+  align-items: center;
+  p {
+    text-align: center;
+  }
+  @media (min-width: 600px) {
+    display: none;
+  }
+`;
 
 const UtilityButtons = styled.div`
   height: 100%;
@@ -60,7 +75,7 @@ const GroupCall = ({ room }: GroupCallProps) => {
   const { participants, localParticipant, remoteParticipants } = room; // eslint-disable-line @typescript-eslint/no-unused-vars
 
   const navigate = useNavigate();
-  
+
   const onExit = () => {
     room.exit();
     navigate(routePaths.endSession);
@@ -89,6 +104,12 @@ const GroupCall = ({ room }: GroupCallProps) => {
             <EndButton onClick={onExit} />
           </UtilityButtons>
         </Footer>
+        <Copyrights>
+          <p style={{ color: "white" }}>
+            LEORA AI © 2023 - All Rights Reserved
+          </p>
+        </Copyrights>
+
         <DeviceSettings
           isOpen={showDeviceSettings}
           close={() => setShowDeviceSettings(false)}

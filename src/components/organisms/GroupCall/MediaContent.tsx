@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { useSbCalls, type StatefulRoom } from "lib/sendbird-calls/SbCallsContext";
+import {
+  useSbCalls,
+  type StatefulRoom,
+} from "lib/sendbird-calls/SbCallsContext";
 import styled, { css } from "styled-components";
 import { normal } from "ui/styles/font";
 
@@ -9,6 +12,7 @@ const ParticipantsRow = styled.div<{ rows: number }>`
   justify-content: center;
   align-items: center;
   width: 100%;
+  gap: 15px;
   max-height: ${(props) => Math.ceil(100 / props.rows)}%;
   margin-bottom: 4px;
   &:last-child {
@@ -30,13 +34,12 @@ const ParticipantView = styled.div<{
   width: 100%;
   height: 100%;
   background-color: var(--navy-800);
-  &:first-child {
-    margin-right: 4px;
-  }
+  border-radius: 20px;
+  overflow: hidden;
   &:before {
     display: block;
     content: "";
-    padding-top: 56.25%; /*What you want the height to be in relation to the width*/
+    padding-top: 75%; /*What you want the height to be in relation to the width*/
   }
   video {
     position: absolute;
@@ -51,16 +54,18 @@ const ParticipantView = styled.div<{
 
 const ParticipantInfo = styled.div`
   display: flex;
-  font-family: 'Poppins',sans-serif;
+  font-family: "Poppins", sans-serif;
   align-items: center;
   position: absolute;
-  left: 0;
-  bottom: 0;
+  left: 15px;
+  bottom: 15px;
   height: 24px;
   padding: 2px 8px;
   background-color: rgba(33, 34, 66, 0.7);
+  border-radius: 5px;
   ${normal};
   color: var(--white);
+  text-transform: uppercase;
 `;
 
 export const ParticipantOverlay = styled.div<{ fillBlack?: boolean }>`
@@ -107,6 +112,9 @@ const Wrapper = styled.div`
   justify-content: center;
   flex: 1;
   max-height: calc(100vh - 40px - 88px);
+  @media (max-width: 600px) {
+    max-height: calc(100vh - 90px - 88px);
+  }
   padding: 16px;
   > ${ParticipantView} {
     width: 100%;
@@ -147,27 +155,29 @@ const MediaContent = ({ room }: Props) => {
           height={windowDimensions.height}
         >
           {/* eslint-disable jsx-a11y/media-has-caption */}
-          { sbCalls.videoInputDeviceInfo.current?.deviceId ?
-          <video
-            autoPlay
-            playsInline
-            muted={p.participantId === localParticipant.participantId}
-            ref={(el) => {
-              if (!el) return;
-              p.setMediaView(el);
-            }}
-          />
-          :
-          <ParticipantOverlay style={{fontFamily: "'Poppins',sans-serif"}}>
-              "Camera not available"
+          {sbCalls.videoInputDeviceInfo.current?.deviceId ? (
+            <video
+              autoPlay
+              playsInline
+              muted={p.participantId === localParticipant.participantId}
+              ref={(el) => {
+                if (!el) return;
+                p.setMediaView(el);
+              }}
+            />
+          ) : (
+            <ParticipantOverlay
+              style={{ fontFamily: "'Poppins',sans-serif", color: "#fff" }}
+            >
+              Camera not available
             </ParticipantOverlay>
-        }
+          )}
           {p.isVideoEnabled || (
             <ParticipantOverlay>
               <Avatar url={p.user.profileUrl} />
             </ParticipantOverlay>
           )}
-          <ParticipantInfo style={{fontFamily: "'Poppins',sans-serif"}}>
+          <ParticipantInfo style={{ fontFamily: "'Poppins',sans-serif" }}>
             {p.isAudioEnabled || <ParticipantMutedIcon />} {p.user.nickname}
           </ParticipantInfo>
         </ParticipantView>
@@ -212,7 +222,9 @@ const MediaContent = ({ room }: Props) => {
                           <Avatar url={p.user.profileUrl} />
                         </ParticipantOverlay>
                       )}
-                      <ParticipantInfo style={{fontFamily: "'Poppins',sans-serif"}}>
+                      <ParticipantInfo
+                        style={{ fontFamily: "'Poppins',sans-serif" }}
+                      >
                         {p.isAudioEnabled || <ParticipantMutedIcon />}{" "}
                         {p.user.nickname}
                       </ParticipantInfo>

@@ -3,33 +3,33 @@ import LeoraMeditating from "ui/assets/images/Leora-profile.png";
 import Logo from "ui/assets/images/Logo.png";
 import React from "react";
 
-const EndSplash = ({ children }: { children: React.ReactElement }) =>  (
-    <Root style={{overflow: 'hidden'}}>
-      <Container>
-        <Grid container alignContent="center">
-          <Grid
-            item
-            xs={12}
-            md={6}
-            alignSelf="center"
-            textAlign="center"
-            className="imageContainer"
-          >
-            <div className="logoContainer">
-              <img className="logo hide-md" src={Logo} alt="Logo" />
-            </div>
-            <img className="leoraImage" src={LeoraMeditating} alt="leora" />
-          </Grid>
-          <Grid item xs={12} md={6} alignSelf="center" textAlign="center">
-            <div className="logoContainer">
-              <img className="logo hide-sm" src={Logo} alt="Logo" />
-            </div>
-            <div className="content">{children}</div>
-          </Grid>
+const EndSplash = ({ children }: { children: React.ReactElement }) => (
+  <Root style={{ overflow: "hidden" }}>
+    <Container>
+      <Grid container alignContent="center">
+        <Grid
+          item
+          xs={12}
+          md={6}
+          alignSelf="center"
+          textAlign="center"
+          className="imageContainer"
+        >
+          <div className="logoContainer">
+            <img className="logo hide-md" src={Logo} alt="Logo" />
+          </div>
+          <img className="leoraImage" src={LeoraMeditating} alt="leora" />
         </Grid>
-      </Container>
-    </Root>
-  );
+        <Grid item xs={12} md={6} alignSelf="center" textAlign="center">
+          <div className="logoContainer">
+            <img className="logo hide-sm" src={Logo} alt="Logo" />
+          </div>
+          <div className="content">{children}</div>
+        </Grid>
+      </Grid>
+    </Container>
+  </Root>
+);
 
 export default EndSplash;
 
@@ -40,7 +40,7 @@ const Root = styled("main")(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: "100vh"
+    height: "100vh",
   },
   "& .leoraImage": {
     height: "100vh",
@@ -50,7 +50,7 @@ const Root = styled("main")(({ theme }) => ({
     zIndex: 2,
     [theme.breakpoints.down("md")]: {
       width: "auto",
-      height: "calc(100vh - 200px)"
+      height: "calc(100vh - 320px)",
     },
   },
   "& .logo": {

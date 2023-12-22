@@ -28,17 +28,12 @@ const VideoRoom = ({ room }: { room: StatefulRoom }) => {
           setIsEnter(() => true);
         })
         .catch((error: string) => {
-          if(error.includes("The given client is already entered"))
-          {
+          if (error.includes("The given client is already entered")) {
             room.exit();
             enter();
-          }
-          else if(error.includes("client has already entered"))
-          {
+          } else if (error.includes("client has already entered")) {
             enter();
-          }
-          else
-            setError(true);
+          } else setError(true);
         });
     };
 
@@ -52,15 +47,15 @@ const VideoRoom = ({ room }: { room: StatefulRoom }) => {
 
   if (!isEnter) return null;
   return (
-    <>    
+    <>
       <ErrorBoundary fallback={<Error />}>
-          {onCall && (
-            <div className="video-call-wrapvideo">
-              <Overlay>
-                <GroupCall room={onCall} />
-              </Overlay>
-            </div>
-          )}
+        {onCall && (
+          <div className="video-call-wrapvideo">
+            <Overlay className="video-container">
+              <GroupCall room={onCall} />
+            </Overlay>
+          </div>
+        )}
       </ErrorBoundary>
     </>
   );
