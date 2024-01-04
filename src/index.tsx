@@ -8,11 +8,14 @@ import reportWebVitals from './reportWebVitals';
 import Error from './Pages/Error/Error'
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
-
 root.render(
   <ErrorBoundary fallback={<Error />}>
       <ThemeProvider theme={{ isWidget: false }}>
+      { window.self === window.top ?
         <App/>
+        :          
+        <Error />
+      }
       </ThemeProvider>
   </ErrorBoundary>
 );
