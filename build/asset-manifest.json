@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.97022224.css",
+    "main.js": "/static/js/main.a99e21c5.js",
+    "static/js/787.0490ade0.chunk.js": "/static/js/787.0490ade0.chunk.js",
+    "static/media/Leora-meditating.png": "/static/media/Leora-meditating.e2981c934c2f6fe61719.png",
+    "static/media/Leora-profile.png": "/static/media/Leora-profile.b9e0f79a81c375564f40.png",
+    "static/media/Cloud-middle.png": "/static/media/Cloud-middle.466fdcd91e947c941bd6.png",
+    "index.html": "/index.html",
+    "main.97022224.css.map": "/static/css/main.97022224.css.map",
+    "main.a99e21c5.js.map": "/static/js/main.a99e21c5.js.map",
+    "787.0490ade0.chunk.js.map": "/static/js/787.0490ade0.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.97022224.css",
+    "static/js/main.a99e21c5.js"
+  ]
+}
